@@ -1,0 +1,20 @@
+{
+  "name": "team-members-block-plugin",
+  "version": "1.0.0",
+  "description": "A custom block for displaying team members",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "tailwind_start": "npx tailwindcss -o build.css --minify --watch",
+    "packages-update": "wp-scripts packages-update"
+  },
+  "author": "Your Name",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "@wordpress/scripts": "^26.0.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.2"
+  }
+}

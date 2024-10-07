@@ -1,0 +1,23 @@
+{
+  "apiVersion": 2,
+  "name": "team-members-block-plugin/team-members",
+  "title": "Team Members",
+  "category": "widgets",
+  "icon": "groups",
+  "description": "Display your team members in a grid layout.",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "team-members-block-plugin",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./index.css",
+  "render": "file:./render.php",
+  "viewScript": ["file:./view.js", "react", "react-dom"],
+  "attributes": {
+    "members": {
+      "type": "array",
+      "default": []
+    }
+  }
+}
