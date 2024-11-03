@@ -13,7 +13,7 @@ export default function TeamMembersBlock() {
         <h2 className="tmbp-title text-2xl font-bold text-center mb-8">
           {__('Our Team', 'team-members-block-plugin')}
         </h2>
-        <div className="tmbp-team-members-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-cols-4">
+        <div className="tmbp-team-members-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <InnerBlocks
             allowedBlocks={['core/group']}
             template={[
@@ -76,7 +76,7 @@ export default function TeamMembersBlock() {
                   level: 3,
                   className: 'tmbp-team-member-name text-xl font-bold text-center mb-2',
                   placeholder: __('Member Name', 'team-members-block-plugin'),
-                }],
+                }], 
                 ['core/paragraph', {
                   className: 'tmbp-team-member-position text-gray-600 text-center',
                   placeholder: __('Member Position', 'team-members-block-plugin'),

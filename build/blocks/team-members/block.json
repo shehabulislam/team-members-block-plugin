@@ -8,7 +8,10 @@
   "description": "Display your team members in a grid layout.",
   "supports": {
     "html": false,
-    "align": ["wide", "full"],
+    "align": [
+      "wide",
+      "full"
+    ],
     "background": {
       "backgroundSize": true,
       "backgroundImage": true
@@ -28,7 +31,10 @@
   },
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": ["file:./style-index.css", "file:./view.css"],
+  "style": [
+    "file:./style-index.css",
+    "file:./view.css"
+  ],
   "render": "file:./render.php",
   "viewScript": "file:./view.js",
   "attributes": {

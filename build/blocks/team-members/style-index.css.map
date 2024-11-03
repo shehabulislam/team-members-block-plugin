@@ -1,0 +1,1 @@
+{"version":3,"file":"blocks/team-members/style-index.css","mappings":";;;AAKI;EACI;AAJR,C","sources":["webpack://team-members-block-plugin/./src/blocks/team-members/style.scss"],"sourcesContent":[".tmbp-team-members-block {\r\n    \r\n}\r\n\r\n.wp-block-tmbp-team-members {\r\n    .profile-pic {\r\n        height: 7rem;\r\n    }\r\n}"],"names":[],"sourceRoot":""}
