@@ -226,15 +226,13 @@ function TeamMembersCards({
   members
 }) {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
-    className: "bg-gray-900"
+    className: "mx-auto max-w-screen-xl"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "mb-6 grid gap-8 md:grid-cols-2 lg:mb-16"
+    className: "mb-6 grid gap-8 md:grid-cols-1 lg:grid-cols-2 lg:mb-16"
   }, members.map((member, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Member, {
     key: `member-${i}`,
     member: member
-  }))))));
+  })))));
 }
 function Member({
   member
@@ -242,28 +240,30 @@ function Member({
   const {
     name,
     position,
+    role,
     bio
   } = member;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700"
+    className: "items-center bg-gray-50 rounded-lg shadow sm:flex "
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#",
     className: "min-w-48 h-full"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    className: "w-full rounded-lg sm:rounded-none sm:rounded-l-lg !h-full object-cover",
+    className: "w-full rounded-lg sm:rounded-none sm:rounded-l-lg md:!h-full object-cover",
     src: "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png",
     alt: "Bonnie Avatar"
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "p-5"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
-    className: "text-xl font-bold tracking-tight text-gray-900 dark:text-white"
+    className: "text-xl font-bold tracking-tight text-gray-900 \r "
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    className: "!no-underline",
     href: "#"
-  }, "Bonnie Green")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "text-gray-500 dark:text-gray-400"
-  }, "CEO & Web Developer"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "mt-3 mb-4 font-light text-gray-500 dark:text-gray-400"
-  }, "I Bonnie drives the technical strategy of the flowbite platform and brand."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_2__["default"], null))));
+  }, name)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: ""
+  }, role), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "mt-3 mb-4 font-light "
+  }, bio), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_2__["default"], null))));
 }
 
 /***/ }),

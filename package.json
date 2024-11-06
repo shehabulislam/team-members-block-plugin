@@ -7,7 +7,9 @@
     "build": "wp-scripts build",
     "tailwind_start": "npx tailwindcss -o build/blocks/team-members/view.css --minify --watch",
     "start": "wp-scripts start",
-    "starddt": "concurrently \"wp-scripts start\" \"npm run tailwind_start\"",
+    "startt": "concurrently \"wp-scripts start\" \"npm run tailwind_start\"",
+    "watch": "gulp browser-sync",
+    "preview": "npm-run-all --parallel watch start tailwind_start",
     "packages-update": "wp-scripts packages-update"
   },
   "author": "Your Name",
@@ -15,10 +17,16 @@
   "devDependencies": {
     "@wordpress/scripts": "^26.0.0",
     "autoprefixer": "^10.4.14",
+    "browser-sync": "^3.0.3",
     "concurrently": "^9.0.1",
     "eslint-webpack-plugin": "^4.2.0",
+    "gulp": "^5.0.0",
     "immer": "^10.1.1",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.23",
     "tailwindcss": "^3.3.2"
+  },
+  "dependencies": {
+    "@wordpress/components": "^28.11.0"
   }
 }

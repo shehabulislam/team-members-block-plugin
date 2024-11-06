@@ -10,6 +10,7 @@ import { produce } from "immer";
 import Settings from "./Settings";
 import { useState, useEffect } from "react";
 import Viewer from "./components/Viewer/Viewer";
+import TeamProvider from "./TeamProvider";
 
 export default function Edit(props) {
   const { attributes, setAttributes } = props;
@@ -31,8 +32,10 @@ export default function Edit(props) {
 
   return (
     <div {...blockProps}>
-      <Settings {...props} updateMember={updateMember} />
-      <Viewer attributes={attributes} onClick={(index) => setCurrentIndex(index)} RichText={RichText} updateMember={updateMember} MediaPlaceholder={MediaPlaceholder} />
+      <TeamProvider>
+        <Settings {...props} updateMember={updateMember} />
+        <Viewer attributes={attributes} onClick={(index) => setCurrentIndex(index)} RichText={RichText} updateMember={updateMember} MediaPlaceholder={MediaPlaceholder} />
+      </TeamProvider>
       {/* <Template1 onClick={(index) => setCurrentIndex(index)} members={members} RichText={RichText} updateMember={updateMember} MediaPlaceholder={MediaPlaceholder} /> */}
     </div>
   );

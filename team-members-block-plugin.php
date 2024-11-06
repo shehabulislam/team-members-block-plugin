@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
-}
+} 
 
 function tmbp_init() {
     register_block_type( __DIR__ . '/build/blocks/team-members' );

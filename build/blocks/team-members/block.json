@@ -22,7 +22,8 @@
     },
     "color": {
       "heading": true,
-      "text": true
+      "text": true,
+      "link": true
     }
   },
   "textdomain": "team-members-block-plugin",
@@ -42,7 +43,7 @@
       "type": "object",
       "default": {
         "color": {
-          "text": "green"
+          "text": "#6b7280"
         }
       }
     },
@@ -61,18 +62,21 @@
           "bio": "John has been leading our company for over a decade, bringing innovation and growth to every project.",
           "social": [
             {
+              "name": "facebook",
               "link": "#",
               "icon": {
                 "class": "fab fa-facebook-f"
               }
             },
             {
+              "name": "twitter",
               "link": "#",
               "icon": {
                 "class": "fab fa-twitter"
               }
             },
             {
+              "name": "linkedin",
               "link": "#",
               "icon": {
                 "class": "fab fa-linkedin-in"

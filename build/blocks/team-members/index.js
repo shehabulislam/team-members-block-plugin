@@ -117,6 +117,46 @@ function Settings({
 
 /***/ }),
 
+/***/ "./src/blocks/team-members/TeamProvider.jsx":
+/*!**************************************************!*\
+  !*** ./src/blocks/team-members/TeamProvider.jsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TeamProvider),
+/* harmony export */   useTeamState: () => (/* binding */ useTeamState)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+
+// Create the context
+const ThemeContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)();
+
+// Create a provider component
+function TeamProvider({
+  children
+}) {
+  const [teamState, setTeamState] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    theme: "light",
+    currentIndex: 0
+  });
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(ThemeContext.Provider, {
+    value: {
+      teamState,
+      setTeamState
+    }
+  }, children);
+}
+
+// Custom hook to use the ThemeContext
+const useTeamState = () => (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(ThemeContext);
+
+/***/ }),
+
 /***/ "./src/blocks/team-members/components/Heading.jsx":
 /*!********************************************************!*\
   !*** ./src/blocks/team-members/components/Heading.jsx ***!
@@ -382,15 +422,13 @@ function TeamMembersCards({
   members
 }) {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
-    className: "bg-gray-900"
+    className: "mx-auto max-w-screen-xl"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "mb-6 grid gap-8 md:grid-cols-2 lg:mb-16"
+    className: "mb-6 grid gap-8 md:grid-cols-1 lg:grid-cols-2 lg:mb-16"
   }, members.map((member, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Member, {
     key: `member-${i}`,
     member: member
-  }))))));
+  })))));
 }
 function Member({
   member
@@ -398,28 +436,30 @@ function Member({
   const {
     name,
     position,
+    role,
     bio
   } = member;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700"
+    className: "items-center bg-gray-50 rounded-lg shadow sm:flex "
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#",
     className: "min-w-48 h-full"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    className: "w-full rounded-lg sm:rounded-none sm:rounded-l-lg !h-full object-cover",
+    className: "w-full rounded-lg sm:rounded-none sm:rounded-l-lg md:!h-full object-cover",
     src: "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png",
     alt: "Bonnie Avatar"
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "p-5"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
-    className: "text-xl font-bold tracking-tight text-gray-900 dark:text-white"
+    className: "text-xl font-bold tracking-tight text-gray-900 \r "
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    className: "!no-underline",
     href: "#"
-  }, "Bonnie Green")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: "text-gray-500 dark:text-gray-400"
-  }, "CEO & Web Developer"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "mt-3 mb-4 font-light text-gray-500 dark:text-gray-400"
-  }, "I Bonnie drives the technical strategy of the flowbite platform and brand."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_2__["default"], null))));
+  }, name)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: ""
+  }, role), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "mt-3 mb-4 font-light "
+  }, bio), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_2__["default"], null))));
 }
 
 /***/ }),
@@ -539,6 +579,34 @@ const demoMember = {
 
 /***/ }),
 
+/***/ "./src/blocks/team-members/constant.js":
+/*!*********************************************!*\
+  !*** ./src/blocks/team-members/constant.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   socialMedias: () => (/* binding */ socialMedias)
+/* harmony export */ });
+/* harmony import */ var _components_Icons_FacebookIcon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Icons/FacebookIcon */ "./src/blocks/team-members/components/Icons/FacebookIcon.jsx");
+
+const socialMedias = [{
+  label: "Facebook",
+  value: "facebook"
+}, {
+  label: "Twitter",
+  value: "twitter"
+}, {
+  label: "Linkedin",
+  value: "linkedin"
+}, {
+  label: "Dribble",
+  value: "dribble"
+}];
+
+/***/ }),
+
 /***/ "./src/blocks/team-members/edit.js":
 /*!*****************************************!*\
   !*** ./src/blocks/team-members/edit.js ***!
@@ -555,9 +623,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/team-members/editor.scss");
 /* harmony import */ var _components_team_templates_Template1__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/team-templates/Template1 */ "./src/blocks/team-members/components/team-templates/Template1.jsx");
-/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.mjs");
+/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.mjs");
 /* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Settings */ "./src/blocks/team-members/Settings.jsx");
 /* harmony import */ var _components_Viewer_Viewer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Viewer/Viewer */ "./src/blocks/team-members/components/Viewer/Viewer.jsx");
+/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
 
 
 
@@ -566,6 +635,7 @@ __webpack_require__.r(__webpack_exports__);
 // import CarouselSlider from "./components/CarouselSlider";
 // import CardsWithBackground from "./components/CardsWithBackground";
 // import TeamMembersCards from "./components/TeamMemberCards";
+
 
 
 
@@ -582,7 +652,7 @@ function Edit(props) {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
   const [currentIndex, setCurrentIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const updateMember = (index, key, value) => {
-    const modifiedMembers = (0,immer__WEBPACK_IMPORTED_MODULE_6__.produce)(members, draft => {
+    const modifiedMembers = (0,immer__WEBPACK_IMPORTED_MODULE_7__.produce)(members, draft => {
       draft[0][key] = value;
     });
     setAttributes({
@@ -594,7 +664,7 @@ function Edit(props) {
   }, [currentIndex]);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Settings__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_TeamProvider__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Settings__WEBPACK_IMPORTED_MODULE_4__["default"], {
     ...props,
     updateMember: updateMember
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Viewer_Viewer__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -603,7 +673,7 @@ function Edit(props) {
     RichText: _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText,
     updateMember: updateMember,
     MediaPlaceholder: _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaPlaceholder
-  }));
+  })));
 }
 
 /***/ }),
@@ -643,10 +713,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constant */ "./src/blocks/team-members/constant.js");
+/* harmony import */ var _PanelBody_SocialMedia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PanelBody/SocialMedia */ "./src/blocks/team-members/tabs/PanelBody/SocialMedia.jsx");
 
 
-function General() {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "General");
+
+
+
+
+function General({
+  attributes,
+  setAttributes
+}) {
+  const social = [];
+  const updateSocialMedia = () => {};
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PanelBody_SocialMedia__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    updateSocialMedia: updateSocialMedia,
+    social: social
+  }));
+}
+
+/***/ }),
+
+/***/ "./src/blocks/team-members/tabs/PanelBody/SocialMedia.jsx":
+/*!****************************************************************!*\
+  !*** ./src/blocks/team-members/tabs/PanelBody/SocialMedia.jsx ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SocialMedia)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../constant */ "./src/blocks/team-members/constant.js");
+/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
+
+
+
+
+
+
+function SocialMedia({
+  social,
+  updateSocialMedia
+}) {
+  const {
+    teamState
+  } = (0,_TeamProvider__WEBPACK_IMPORTED_MODULE_4__.useTeamState)();
+  console.log(teamState);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Social Media", "text-domain")
+  }, Array.isArray(social) && social.map((item, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+    title: social.name || "Name",
+    initialOpen: false,
+    key: i
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
+    options: _constant__WEBPACK_IMPORTED_MODULE_3__.socialMedias,
+    value: item.name,
+    onChange: value => updateSocialMedia("name", value, i)
+  })))));
 }
 
 /***/ }),
@@ -2025,7 +2160,7 @@ function castImmutable(value) {
   \********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":2,"name":"tmbp/team-members","position":"Developer","title":"Team Members","category":"widgets","icon":"groups","description":"Display your team members in a grid layout.","supports":{"html":false,"align":["wide","full"],"background":{"backgroundSize":true,"backgroundImage":true},"spacing":{"margin":true,"padding":true},"color":{"heading":true,"text":true}},"textdomain":"team-members-block-plugin","selectors":{"root":".wp-block-tmbp-team-members"},"editorScript":"file:./index.js","editorStyle":"file:./index.css","style":["file:./style-index.css","file:./view.css"],"render":"file:./render.php","viewScript":"file:./view.js","attributes":{"style":{"type":"object","default":{"color":{"text":"green"}}},"template":{"type":"string","default":"template1"},"members":{"type":"array","default":[{"name":"John Doe","position":"Developer","role":"CEO & Founder","image":"https://picsum.photos/200/300","bio":"John has been leading our company for over a decade, bringing innovation and growth to every project.","social":[{"link":"#","icon":{"class":"fab fa-facebook-f"}},{"link":"#","icon":{"class":"fab fa-twitter"}},{"link":"#","icon":{"class":"fab fa-linkedin-in"}}]}]},"styles":{"type":"object","default":{"template1":{},"common":{}}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":2,"name":"tmbp/team-members","position":"Developer","title":"Team Members","category":"widgets","icon":"groups","description":"Display your team members in a grid layout.","supports":{"html":false,"align":["wide","full"],"background":{"backgroundSize":true,"backgroundImage":true},"spacing":{"margin":true,"padding":true},"color":{"heading":true,"text":true,"link":true}},"textdomain":"team-members-block-plugin","selectors":{"root":".wp-block-tmbp-team-members"},"editorScript":"file:./index.js","editorStyle":"file:./index.css","style":["file:./style-index.css","file:./view.css"],"render":"file:./render.php","viewScript":"file:./view.js","attributes":{"style":{"type":"object","default":{"color":{"text":"#6b7280"}}},"template":{"type":"string","default":"template1"},"members":{"type":"array","default":[{"name":"John Doe","position":"Developer","role":"CEO & Founder","image":"https://picsum.photos/200/300","bio":"John has been leading our company for over a decade, bringing innovation and growth to every project.","social":[{"name":"facebook","link":"#","icon":{"class":"fab fa-facebook-f"}},{"name":"twitter","link":"#","icon":{"class":"fab fa-twitter"}},{"name":"linkedin","link":"#","icon":{"class":"fab fa-linkedin-in"}}]}]},"styles":{"type":"object","default":{"template1":{},"common":{}}}}}');
 
 /***/ })
 
