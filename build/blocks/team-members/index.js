@@ -20,11 +20,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.mjs");
-/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./const */ "./src/blocks/team-members/const.js");
+/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.mjs");
+/* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./constant */ "./src/blocks/team-members/constant.js");
 /* harmony import */ var _tabs_General__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./tabs/General */ "./src/blocks/team-members/tabs/General.jsx");
 /* harmony import */ var _tabs_Style__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tabs/Style */ "./src/blocks/team-members/tabs/Style.jsx");
 /* harmony import */ var _utils_tabController__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/tabController */ "./src/utils/tabController.js");
+/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
+
 
 
 
@@ -43,12 +45,26 @@ function Settings({
   const {
     members
   } = attributes;
+  const {
+    teamState
+  } = (0,_TeamProvider__WEBPACK_IMPORTED_MODULE_8__.useTeamState)();
+  const {
+    currentIndex
+  } = teamState;
   const addMember = () => {
-    const modifiedMembers = (0,immer__WEBPACK_IMPORTED_MODULE_8__.produce)(members, draft => {
-      draft.push(_const__WEBPACK_IMPORTED_MODULE_4__.demoMember);
+    const modifiedMembers = (0,immer__WEBPACK_IMPORTED_MODULE_9__.produce)(members, draft => {
+      draft.push(_constant__WEBPACK_IMPORTED_MODULE_4__.demoMember);
     });
     setAttributes({
       members: modifiedMembers
+    });
+  };
+  const removeMember = i => {
+    const draft = (0,immer__WEBPACK_IMPORTED_MODULE_9__.produce)(members, draft => {
+      draft.splice(i, 1);
+    });
+    setAttributes({
+      members: draft
     });
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TabPanel, {
@@ -67,7 +83,8 @@ function Settings({
   }, tab => {
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, tab.name === "general" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_tabs_General__WEBPACK_IMPORTED_MODULE_5__["default"], {
       attributes: attributes,
-      setAttributes: setAttributes
+      setAttributes: setAttributes,
+      updateMember: updateMember
     }), tab.name === "style" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_tabs_Style__WEBPACK_IMPORTED_MODULE_6__["default"], {
       attributes: attributes,
       setAttributes: setAttributes
@@ -77,12 +94,11 @@ function Settings({
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarButton, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New Member", "team-section"),
     onClick: addMember
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Dashicon, {
-    icon: "plus"
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarButton, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Add New Member", "team-section"),
-    onClick: addMember
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Dropdown, {
+  }, "Add Member")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarButton, {
+    className: "bg-red-500 text-white",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Remove Member", "team-section"),
+    onClick: () => removeMember(currentIndex)
+  }, "Remove Member")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Dropdown, {
     className: "my-container-class-name",
     contentClassName: "my-popover-content-classname",
     popoverProps: {
@@ -92,25 +108,34 @@ function Settings({
       isOpen,
       onToggle
     }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Button, {
-      icon: "upload",
+      icon: "format-image",
       onClick: onToggle,
       "aria-expanded": isOpen
     })
     // <Dashicon icon="upload" onClick={onToggle} aria-expanded={isOpen} />
     ,
     renderContent: () => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaPlaceholder, {
-      onSelect: el => {
-        updateMember(0, "image", el.url);
+      className: "tmbp-toolbar-uploader",
+      onSelect: ({
+        url,
+        alt
+      }) => {
+        updateMember("image", {
+          url,
+          alt
+        });
       },
       onSelectURL: url => {
-        updateMember(0, "image", url);
+        updateMember("image", {
+          url
+        });
       },
       allowedTypes: ["image"],
       multiple: false,
       labels: {
         title: ""
       },
-      icon: "image"
+      icon: "format-image"
     }), " ")
   }))));
 }
@@ -141,7 +166,6 @@ function TeamProvider({
   children
 }) {
   const [teamState, setTeamState] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    theme: "light",
     currentIndex: 0
   });
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(ThemeContext.Provider, {
@@ -282,6 +306,36 @@ function GithubIcon({
 
 /***/ }),
 
+/***/ "./src/blocks/team-members/components/Icons/LinkedinIcon.jsx":
+/*!*******************************************************************!*\
+  !*** ./src/blocks/team-members/components/Icons/LinkedinIcon.jsx ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const LinkedinIcon = props => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
+  fill: "#000000",
+  width: "20px",
+  height: "20px",
+  viewBox: "-2 -2 24 24",
+  xmlns: "http://www.w3.org/2000/svg",
+  preserveAspectRatio: "xMinYMin",
+  className: "jam jam-linkedin",
+  ...props
+}, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+  d: "M19.959 11.719v7.379h-4.278v-6.885c0-1.73-.619-2.91-2.167-2.91-1.182 0-1.886.796-2.195 1.565-.113.275-.142.658-.142 1.043v7.187h-4.28s.058-11.66 0-12.869h4.28v1.824l-.028.042h.028v-.042c.568-.875 1.583-2.126 3.856-2.126 2.815 0 4.926 1.84 4.926 5.792zM2.421.026C.958.026 0 .986 0 2.249c0 1.235.93 2.224 2.365 2.224h.028c1.493 0 2.42-.989 2.42-2.224C4.787.986 3.887.026 2.422.026zM.254 19.098h4.278V6.229H.254v12.869z"
+}));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LinkedinIcon);
+
+/***/ }),
+
 /***/ "./src/blocks/team-members/components/Icons/SocialMedia.jsx":
 /*!******************************************************************!*\
   !*** ./src/blocks/team-members/components/Icons/SocialMedia.jsx ***!
@@ -297,33 +351,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DribbbleIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DribbbleIcon */ "./src/blocks/team-members/components/Icons/DribbbleIcon.jsx");
 /* harmony import */ var _FacebookIcon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FacebookIcon */ "./src/blocks/team-members/components/Icons/FacebookIcon.jsx");
 /* harmony import */ var _GithubIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GithubIcon */ "./src/blocks/team-members/components/Icons/GithubIcon.jsx");
-/* harmony import */ var _TwitterIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TwitterIcon */ "./src/blocks/team-members/components/Icons/TwitterIcon.jsx");
+/* harmony import */ var _LinkedinIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LinkedinIcon */ "./src/blocks/team-members/components/Icons/LinkedinIcon.jsx");
+/* harmony import */ var _TwitterIcon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TwitterIcon */ "./src/blocks/team-members/components/Icons/TwitterIcon.jsx");
 
 
 
 
 
+
+const media = {
+  facebook: _FacebookIcon__WEBPACK_IMPORTED_MODULE_2__["default"],
+  dribble: _DribbbleIcon__WEBPACK_IMPORTED_MODULE_1__["default"],
+  twitter: _TwitterIcon__WEBPACK_IMPORTED_MODULE_5__["default"],
+  github: _GithubIcon__WEBPACK_IMPORTED_MODULE_3__["default"],
+  linkedin: _LinkedinIcon__WEBPACK_IMPORTED_MODULE_4__["default"]
+};
 function SocialMedia({
   social
 }) {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     className: "flex space-x-4 sm:mt-0"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "#",
-    className: "text-gray-500 hover:text-white"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FacebookIcon__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    height: "20",
-    width: "20"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "#",
-    className: "text-gray-500 hover:text-white"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_TwitterIcon__WEBPACK_IMPORTED_MODULE_4__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "#",
-    className: "text-gray-500 hover:text-white"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_GithubIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "#",
-    className: "text-gray-500 hover:text-white"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DribbbleIcon__WEBPACK_IMPORTED_MODULE_1__["default"], null)))));
+  }, social.map(item => {
+    const MediaIcon = media[item.name?.toLowerCase()]; // Get the icon based on item.name
+
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+      key: item.name
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: item.link || "#",
+      className: "text-gray-500 hover:text-white"
+    }, MediaIcon ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(MediaIcon, {
+      height: "20",
+      width: "20"
+    }) :
+    // Custom SVG if MediaIcon is not found
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
+      height: "20",
+      width: "20",
+      xmlns: "http://www.w3.org/2000/svg",
+      fill: "currentColor",
+      viewBox: "0 0 24 24"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+      d: "M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.478 22 2 17.522 2 12S6.478 2 12 2s10 4.478 10 10-4.478 10-10 10z"
+    }))));
+  })));
 }
 
 /***/ }),
@@ -373,8 +443,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _team_templates_Template1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../team-templates/Template1 */ "./src/blocks/team-members/components/team-templates/Template1.jsx");
 /* harmony import */ var _team_templates_TeamMemberCards__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../team-templates/TeamMemberCards */ "./src/blocks/team-members/components/team-templates/TeamMemberCards.jsx");
+/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
 
- // Import PropTypes
+
+
 
 
 const templates = {
@@ -389,9 +461,15 @@ function Viewer({
     template,
     members
   } = attributes;
+  const {
+    teamState
+  } = (0,_TeamProvider__WEBPACK_IMPORTED_MODULE_3__.useTeamState)();
 
   // Check if the template exists and fallback to a default template or error handling
   const Template = templates["template2"] || (() => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "No template found"));
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log(teamState);
+  }, [teamState]);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Template, {
     members: members,
     ...restProps
@@ -413,13 +491,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Heading */ "./src/blocks/team-members/components/Heading.jsx");
-/* harmony import */ var _Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Icons/SocialMedia */ "./src/blocks/team-members/components/Icons/SocialMedia.jsx");
+/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
+/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Heading */ "./src/blocks/team-members/components/Heading.jsx");
+/* harmony import */ var _Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Icons/SocialMedia */ "./src/blocks/team-members/components/Icons/SocialMedia.jsx");
+
 
 
 
 function TeamMembersCards({
-  members
+  members,
+  ...restProps
 }) {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
     className: "mx-auto max-w-screen-xl"
@@ -427,39 +508,68 @@ function TeamMembersCards({
     className: "mb-6 grid gap-8 md:grid-cols-1 lg:grid-cols-2 lg:mb-16"
   }, members.map((member, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Member, {
     key: `member-${i}`,
-    member: member
+    member: member,
+    index: i,
+    ...restProps
   })))));
 }
 function Member({
-  member
+  member,
+  index,
+  RichText,
+  updateMember
 }) {
   const {
     name,
-    position,
+    social,
     role,
-    bio
+    bio,
+    image
   } = member;
+  const {
+    teamState,
+    setTeamState
+  } = (0,_TeamProvider__WEBPACK_IMPORTED_MODULE_1__.useTeamState)();
+  const {
+    currentIndex
+  } = teamState;
+  // console.log(teamState);
+
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "items-center bg-gray-50 rounded-lg shadow sm:flex "
+    className: `items-center bg-gray-50 rounded-lg shadow sm:flex ${currentIndex === index ? "border border-gray-700" : ""}`,
+    onClick: () => setTeamState(prevState => ({
+      ...prevState,
+      currentIndex: index
+    }))
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#",
-    className: "min-w-48 h-full"
+    className: "min-w-48 md:max-w-48 h-full"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     className: "w-full rounded-lg sm:rounded-none sm:rounded-l-lg md:!h-full object-cover",
-    src: "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png",
-    alt: "Bonnie Avatar"
+    src: image.url,
+    alt: image.alt
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "p-5"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
     className: "text-xl font-bold tracking-tight text-gray-900 \r "
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText, {
+    tagName: "a",
+    value: name,
     className: "!no-underline",
-    href: "#"
-  }, name)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: ""
-  }, role), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "mt-3 mb-4 font-light "
-  }, bio), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_2__["default"], null))));
+    href: "#",
+    onChange: name => updateMember("name", name)
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText, {
+    tagName: "span",
+    value: role,
+    onChange: value => updateMember("role", value)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText, {
+    tagName: "p",
+    className: "mt-3 mb-4 font-light ",
+    value: bio,
+    onChange: value => updateMember("bio", value)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    social: social
+  }))));
 }
 
 /***/ }),
@@ -543,16 +653,38 @@ function Template1(props) {
 
 /***/ }),
 
-/***/ "./src/blocks/team-members/const.js":
-/*!******************************************!*\
-  !*** ./src/blocks/team-members/const.js ***!
-  \******************************************/
+/***/ "./src/blocks/team-members/constant.js":
+/*!*********************************************!*\
+  !*** ./src/blocks/team-members/constant.js ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   demoMember: () => (/* binding */ demoMember)
+/* harmony export */   demoMember: () => (/* binding */ demoMember),
+/* harmony export */   socialMedias: () => (/* binding */ socialMedias)
 /* harmony export */ });
+/* harmony import */ var _components_Icons_FacebookIcon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Icons/FacebookIcon */ "./src/blocks/team-members/components/Icons/FacebookIcon.jsx");
+
+const socialMedias = [{
+  label: "Facebook",
+  value: "facebook"
+}, {
+  label: "Twitter",
+  value: "twitter"
+}, {
+  label: "Github",
+  value: "github"
+}, {
+  label: "Dribble",
+  value: "dribble"
+}, {
+  label: "Linkedin",
+  value: "linkedin"
+}, {
+  label: "Custom",
+  value: "custom"
+}];
 const demoMember = {
   name: "John Doe",
   position: "Developer",
@@ -579,34 +711,6 @@ const demoMember = {
 
 /***/ }),
 
-/***/ "./src/blocks/team-members/constant.js":
-/*!*********************************************!*\
-  !*** ./src/blocks/team-members/constant.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   socialMedias: () => (/* binding */ socialMedias)
-/* harmony export */ });
-/* harmony import */ var _components_Icons_FacebookIcon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Icons/FacebookIcon */ "./src/blocks/team-members/components/Icons/FacebookIcon.jsx");
-
-const socialMedias = [{
-  label: "Facebook",
-  value: "facebook"
-}, {
-  label: "Twitter",
-  value: "twitter"
-}, {
-  label: "Linkedin",
-  value: "linkedin"
-}, {
-  label: "Dribble",
-  value: "dribble"
-}];
-
-/***/ }),
-
 /***/ "./src/blocks/team-members/edit.js":
 /*!*****************************************!*\
   !*** ./src/blocks/team-members/edit.js ***!
@@ -622,11 +726,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/team-members/editor.scss");
-/* harmony import */ var _components_team_templates_Template1__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/team-templates/Template1 */ "./src/blocks/team-members/components/team-templates/Template1.jsx");
-/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.mjs");
-/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Settings */ "./src/blocks/team-members/Settings.jsx");
-/* harmony import */ var _components_Viewer_Viewer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Viewer/Viewer */ "./src/blocks/team-members/components/Viewer/Viewer.jsx");
-/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
+/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.mjs");
+/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Settings */ "./src/blocks/team-members/Settings.jsx");
+/* harmony import */ var _components_Viewer_Viewer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Viewer/Viewer */ "./src/blocks/team-members/components/Viewer/Viewer.jsx");
+/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
+
 
 
 
@@ -635,8 +739,6 @@ __webpack_require__.r(__webpack_exports__);
 // import CarouselSlider from "./components/CarouselSlider";
 // import CardsWithBackground from "./components/CardsWithBackground";
 // import TeamMembersCards from "./components/TeamMemberCards";
-
-
 
 
 
@@ -650,30 +752,67 @@ function Edit(props) {
     members
   } = attributes;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
-  const [currentIndex, setCurrentIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const updateMember = (index, key, value) => {
-    const modifiedMembers = (0,immer__WEBPACK_IMPORTED_MODULE_7__.produce)(members, draft => {
-      draft[0][key] = value;
+  const {
+    teamState,
+    setTeamState
+  } = (0,_TeamProvider__WEBPACK_IMPORTED_MODULE_5__.useTeamState)();
+  const {
+    currentIndex
+  } = teamState;
+  const updateMember = (key, value) => {
+    const modifiedMembers = (0,immer__WEBPACK_IMPORTED_MODULE_6__.produce)(members, draft => {
+      draft[currentIndex][key] = value;
     });
     setAttributes({
       members: modifiedMembers
     });
   };
+  const removeSocialMedia = i => {
+    const social = members[currentIndex].social;
+    const draft = (0,immer__WEBPACK_IMPORTED_MODULE_6__.produce)(social, draft => {
+      draft.splice(i, 1);
+    });
+    updateMember("social", draft);
+  };
+
+  // const addSocialMedia = () => {
+  //   const social = members[currentIndex].social;
+  //   const draft = produce(social, (draft) => {
+  //     draft.splice(social.length, 1);
+  //   });
+  //   updateMember("social", draft);
+  // };
+
+  const addSocialMedia = () => {
+    const social = members[currentIndex].social;
+    const draft = (0,immer__WEBPACK_IMPORTED_MODULE_6__.produce)(social, draft => {
+      draft.splice(social.length, 0, {
+        label: "social",
+        value: "facebook"
+      });
+    });
+    updateMember("social", draft);
+  };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    console.log(currentIndex, attributes);
-  }, [currentIndex]);
+    setTeamState(prevState => ({
+      ...prevState,
+      updateMember,
+      removeSocialMedia,
+      addSocialMedia
+    }));
+    console.log(attributes);
+  }, []);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_TeamProvider__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Settings__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Settings__WEBPACK_IMPORTED_MODULE_3__["default"], {
     ...props,
     updateMember: updateMember
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Viewer_Viewer__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Viewer_Viewer__WEBPACK_IMPORTED_MODULE_4__["default"], {
     attributes: attributes,
-    onClick: index => setCurrentIndex(index),
     RichText: _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText,
     updateMember: updateMember,
     MediaPlaceholder: _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaPlaceholder
-  })));
+  }));
 }
 
 /***/ }),
@@ -685,19 +824,32 @@ function Edit(props) {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
-/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./block.json */ "./src/blocks/team-members/block.json");
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/team-members/edit.js");
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/team-members/style.scss");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   EditWithProvider: () => (/* binding */ EditWithProvider)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block.json */ "./src/blocks/team-members/block.json");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit */ "./src/blocks/team-members/edit.js");
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/team-members/style.scss");
+/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
 
 
 
 
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_1__.name, {
-  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
+
+
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_2__.name, {
+  edit: EditWithProvider,
   save: () => null // Dynamic block, so we use PHP render
 });
+function EditWithProvider(props) {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_TeamProvider__WEBPACK_IMPORTED_MODULE_5__["default"], null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_edit__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    ...props
+  }));
+}
 
 /***/ }),
 
@@ -717,8 +869,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.mjs");
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constant */ "./src/blocks/team-members/constant.js");
 /* harmony import */ var _PanelBody_SocialMedia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PanelBody/SocialMedia */ "./src/blocks/team-members/tabs/PanelBody/SocialMedia.jsx");
+/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
+/* harmony import */ var _PanelBody_Member__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PanelBody/Member */ "./src/blocks/team-members/tabs/PanelBody/Member.jsx");
+/* harmony import */ var _PanelBody_Layout__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PanelBody/Layout */ "./src/blocks/team-members/tabs/PanelBody/Layout.jsx");
+
+
+
+
 
 
 
@@ -727,13 +887,144 @@ __webpack_require__.r(__webpack_exports__);
 
 function General({
   attributes,
+  setAttributes,
+  updateMember
+}) {
+  const {
+    members,
+    layout
+  } = attributes;
+  const {
+    teamState
+  } = (0,_TeamProvider__WEBPACK_IMPORTED_MODULE_5__.useTeamState)();
+  const social = members[teamState.currentIndex]?.social || [];
+  const updateSocialMedia = (key, value, i) => {
+    console.log({
+      key,
+      value,
+      i
+    });
+    const draft = (0,immer__WEBPACK_IMPORTED_MODULE_8__.produce)(social, draft => {
+      draft[i][key] = value;
+    });
+    updateMember("social", draft);
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    console.log(social);
+  }, [teamState.currentIndex]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PanelBody_Layout__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    layout: layout,
+    setAttributes: setAttributes
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PanelBody_Member__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    member: members[teamState.currentIndex],
+    updateMember: updateMember
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PanelBody_SocialMedia__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    updateSocialMedia: updateSocialMedia,
+    social: social,
+    updateMember: updateMember
+  }));
+}
+
+/***/ }),
+
+/***/ "./src/blocks/team-members/tabs/PanelBody/Layout.jsx":
+/*!***********************************************************!*\
+  !*** ./src/blocks/team-members/tabs/PanelBody/Layout.jsx ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Layout)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.mjs");
+
+
+
+
+
+
+
+function Layout({
+  layout,
   setAttributes
 }) {
-  const social = [];
-  const updateSocialMedia = () => {};
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_PanelBody_SocialMedia__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    updateSocialMedia: updateSocialMedia,
-    social: social
+  const device = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.select)("core/edit-post").__experimentalGetPreviewDeviceType();
+  const columns = layout.columns[device] || 3;
+  const updateDevice = value => {
+    const draft = (0,immer__WEBPACK_IMPORTED_MODULE_4__.produce)(layout, draft => {
+      draft.columns[device] = value;
+    });
+    setAttributes({
+      layout: draft
+    });
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.__experimentalNumberControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Columns", "text-domain"),
+    isShiftStepEnabled: true,
+    onChange: value => updateDevice(value),
+    shiftStep: 1,
+    value: columns
+  }));
+}
+
+/***/ }),
+
+/***/ "./src/blocks/team-members/tabs/PanelBody/Member.jsx":
+/*!***********************************************************!*\
+  !*** ./src/blocks/team-members/tabs/PanelBody/Member.jsx ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Member)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+function Member({
+  member,
+  updateMember
+}) {
+  const {
+    name,
+    bio,
+    role
+  } = member || {};
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+    title: name || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Member", "text-domain"),
+    initialOpen: true
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Name", "text-domain"),
+    value: name,
+    placeholder: "Name",
+    onChange: name => updateMember("name", name)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Role", "text-domain"),
+    value: role,
+    placeholder: "Role",
+    onChange: role => updateMember("role", role)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextareaControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Bio", "text-domain"),
+    value: bio,
+    placeholder: "Bio",
+    onChange: bio => updateMember("bio", bio)
   }));
 }
 
@@ -757,6 +1048,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _constant__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../constant */ "./src/blocks/team-members/constant.js");
 /* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
+/* harmony import */ var immer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! immer */ "./node_modules/immer/dist/immer.mjs");
+
 
 
 
@@ -765,23 +1058,52 @@ __webpack_require__.r(__webpack_exports__);
 
 function SocialMedia({
   social,
-  updateSocialMedia
+  updateSocialMedia,
+  updateMember
 }) {
   const {
     teamState
   } = (0,_TeamProvider__WEBPACK_IMPORTED_MODULE_4__.useTeamState)();
-  console.log(teamState);
+  const removeSocialMedia = i => {
+    const draft = (0,immer__WEBPACK_IMPORTED_MODULE_5__.produce)(social, draft => {
+      draft.splice(i, 1);
+    });
+    updateMember("social", draft);
+  };
+  const addSocialMedia = () => {
+    const draft = (0,immer__WEBPACK_IMPORTED_MODULE_5__.produce)(social, draft => {
+      draft.splice(social.length, 0, {
+        label: "social",
+        value: ""
+      });
+    });
+    updateMember("social", draft);
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Social Media", "text-domain")
   }, Array.isArray(social) && social.map((item, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
-    title: social.name || "Name",
-    initialOpen: false,
-    key: i
+    title: item.name || "Name",
+    initialOpen: false
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Social Media", "text-domain"),
     options: _constant__WEBPACK_IMPORTED_MODULE_3__.socialMedias,
     value: item.name,
     onChange: value => updateSocialMedia("name", value, i)
-  })))));
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.TextControl, {
+    value: item.link,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Link", "text-domain"),
+    onChange: value => updateSocialMedia("link", value, i)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-end"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+    onClick: () => removeSocialMedia(i),
+    className: "button button-danger !text-white !bg-red-600"
+  }, "Remove"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "flex justify-end"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
+    onClick: addSocialMedia,
+    className: "button button-primary"
+  }, "Add New")));
 }
 
 /***/ }),
@@ -899,6 +1221,16 @@ module.exports = window["wp"]["blocks"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
 
 /***/ }),
 
@@ -2160,7 +2492,7 @@ function castImmutable(value) {
   \********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":2,"name":"tmbp/team-members","position":"Developer","title":"Team Members","category":"widgets","icon":"groups","description":"Display your team members in a grid layout.","supports":{"html":false,"align":["wide","full"],"background":{"backgroundSize":true,"backgroundImage":true},"spacing":{"margin":true,"padding":true},"color":{"heading":true,"text":true,"link":true}},"textdomain":"team-members-block-plugin","selectors":{"root":".wp-block-tmbp-team-members"},"editorScript":"file:./index.js","editorStyle":"file:./index.css","style":["file:./style-index.css","file:./view.css"],"render":"file:./render.php","viewScript":"file:./view.js","attributes":{"style":{"type":"object","default":{"color":{"text":"#6b7280"}}},"template":{"type":"string","default":"template1"},"members":{"type":"array","default":[{"name":"John Doe","position":"Developer","role":"CEO & Founder","image":"https://picsum.photos/200/300","bio":"John has been leading our company for over a decade, bringing innovation and growth to every project.","social":[{"name":"facebook","link":"#","icon":{"class":"fab fa-facebook-f"}},{"name":"twitter","link":"#","icon":{"class":"fab fa-twitter"}},{"name":"linkedin","link":"#","icon":{"class":"fab fa-linkedin-in"}}]}]},"styles":{"type":"object","default":{"template1":{},"common":{}}}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":2,"name":"tmbp/team-members","position":"Developer","title":"Team Members","category":"widgets","icon":"groups","description":"Display your team members in a grid layout.","supports":{"html":false,"align":["wide","full"],"background":{"backgroundSize":true,"backgroundImage":true},"spacing":{"margin":true,"padding":true},"color":{"heading":true,"text":true,"link":true}},"textdomain":"team-members-block-plugin","selectors":{"root":".wp-block-tmbp-team-members"},"editorScript":"file:./index.js","editorStyle":"file:./index.css","style":["file:./style-index.css","file:./view.css"],"render":"file:./render.php","viewScript":"file:./view.js","attributes":{"style":{"type":"object","default":{"color":{"text":"#6b7280"}}},"template":{"type":"string","default":"template1"},"layout":{"type":"object","default":{"columns":{"Desktop":3,"Tablet":2,"Mobile":1}}},"members":{"type":"array","default":[{"name":"John Doe","position":"Developer","role":"CEO & Founder","image":"https://picsum.photos/200/300","bio":"John has been leading our company for over a decade, bringing innovation and growth to every project.","social":[{"name":"facebook","link":"#","icon":{"class":"fab fa-facebook-f"}},{"name":"twitter","link":"#","icon":{"class":"fab fa-twitter"}},{"name":"linkedin","link":"#","icon":{"class":"fab fa-linkedin-in"}}]}]},"styles":{"type":"object","default":{"template1":{},"common":{}}}}}');
 
 /***/ })
 

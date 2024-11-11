@@ -2,6 +2,45 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/blocks/team-members/TeamProvider.jsx":
+/*!**************************************************!*\
+  !*** ./src/blocks/team-members/TeamProvider.jsx ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TeamProvider),
+/* harmony export */   useTeamState: () => (/* binding */ useTeamState)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+
+// Create the context
+const ThemeContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)();
+
+// Create a provider component
+function TeamProvider({
+  children
+}) {
+  const [teamState, setTeamState] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    currentIndex: 0
+  });
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(ThemeContext.Provider, {
+    value: {
+      teamState,
+      setTeamState
+    }
+  }, children);
+}
+
+// Custom hook to use the ThemeContext
+const useTeamState = () => (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(ThemeContext);
+
+/***/ }),
+
 /***/ "./src/blocks/team-members/components/Heading.jsx":
 /*!********************************************************!*\
   !*** ./src/blocks/team-members/components/Heading.jsx ***!
@@ -127,6 +166,36 @@ function GithubIcon({
 
 /***/ }),
 
+/***/ "./src/blocks/team-members/components/Icons/LinkedinIcon.jsx":
+/*!*******************************************************************!*\
+  !*** ./src/blocks/team-members/components/Icons/LinkedinIcon.jsx ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const LinkedinIcon = props => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
+  fill: "#000000",
+  width: "20px",
+  height: "20px",
+  viewBox: "-2 -2 24 24",
+  xmlns: "http://www.w3.org/2000/svg",
+  preserveAspectRatio: "xMinYMin",
+  className: "jam jam-linkedin",
+  ...props
+}, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+  d: "M19.959 11.719v7.379h-4.278v-6.885c0-1.73-.619-2.91-2.167-2.91-1.182 0-1.886.796-2.195 1.565-.113.275-.142.658-.142 1.043v7.187h-4.28s.058-11.66 0-12.869h4.28v1.824l-.028.042h.028v-.042c.568-.875 1.583-2.126 3.856-2.126 2.815 0 4.926 1.84 4.926 5.792zM2.421.026C.958.026 0 .986 0 2.249c0 1.235.93 2.224 2.365 2.224h.028c1.493 0 2.42-.989 2.42-2.224C4.787.986 3.887.026 2.422.026zM.254 19.098h4.278V6.229H.254v12.869z"
+}));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LinkedinIcon);
+
+/***/ }),
+
 /***/ "./src/blocks/team-members/components/Icons/SocialMedia.jsx":
 /*!******************************************************************!*\
   !*** ./src/blocks/team-members/components/Icons/SocialMedia.jsx ***!
@@ -142,33 +211,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DribbbleIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DribbbleIcon */ "./src/blocks/team-members/components/Icons/DribbbleIcon.jsx");
 /* harmony import */ var _FacebookIcon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FacebookIcon */ "./src/blocks/team-members/components/Icons/FacebookIcon.jsx");
 /* harmony import */ var _GithubIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GithubIcon */ "./src/blocks/team-members/components/Icons/GithubIcon.jsx");
-/* harmony import */ var _TwitterIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TwitterIcon */ "./src/blocks/team-members/components/Icons/TwitterIcon.jsx");
+/* harmony import */ var _LinkedinIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LinkedinIcon */ "./src/blocks/team-members/components/Icons/LinkedinIcon.jsx");
+/* harmony import */ var _TwitterIcon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TwitterIcon */ "./src/blocks/team-members/components/Icons/TwitterIcon.jsx");
 
 
 
 
 
+
+const media = {
+  facebook: _FacebookIcon__WEBPACK_IMPORTED_MODULE_2__["default"],
+  dribble: _DribbbleIcon__WEBPACK_IMPORTED_MODULE_1__["default"],
+  twitter: _TwitterIcon__WEBPACK_IMPORTED_MODULE_5__["default"],
+  github: _GithubIcon__WEBPACK_IMPORTED_MODULE_3__["default"],
+  linkedin: _LinkedinIcon__WEBPACK_IMPORTED_MODULE_4__["default"]
+};
 function SocialMedia({
   social
 }) {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
     className: "flex space-x-4 sm:mt-0"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "#",
-    className: "text-gray-500 hover:text-white"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FacebookIcon__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    height: "20",
-    width: "20"
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "#",
-    className: "text-gray-500 hover:text-white"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_TwitterIcon__WEBPACK_IMPORTED_MODULE_4__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "#",
-    className: "text-gray-500 hover:text-white"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_GithubIcon__WEBPACK_IMPORTED_MODULE_3__["default"], null))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "#",
-    className: "text-gray-500 hover:text-white"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DribbbleIcon__WEBPACK_IMPORTED_MODULE_1__["default"], null)))));
+  }, social.map(item => {
+    const MediaIcon = media[item.name?.toLowerCase()]; // Get the icon based on item.name
+
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+      key: item.name
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: item.link || "#",
+      className: "text-gray-500 hover:text-white"
+    }, MediaIcon ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(MediaIcon, {
+      height: "20",
+      width: "20"
+    }) :
+    // Custom SVG if MediaIcon is not found
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
+      height: "20",
+      width: "20",
+      xmlns: "http://www.w3.org/2000/svg",
+      fill: "currentColor",
+      viewBox: "0 0 24 24"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+      d: "M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.478 22 2 17.522 2 12S6.478 2 12 2s10 4.478 10 10-4.478 10-10 10z"
+    }))));
+  })));
 }
 
 /***/ }),
@@ -217,13 +302,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Heading */ "./src/blocks/team-members/components/Heading.jsx");
-/* harmony import */ var _Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Icons/SocialMedia */ "./src/blocks/team-members/components/Icons/SocialMedia.jsx");
+/* harmony import */ var _TeamProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../TeamProvider */ "./src/blocks/team-members/TeamProvider.jsx");
+/* harmony import */ var _Heading__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Heading */ "./src/blocks/team-members/components/Heading.jsx");
+/* harmony import */ var _Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Icons/SocialMedia */ "./src/blocks/team-members/components/Icons/SocialMedia.jsx");
+
 
 
 
 function TeamMembersCards({
-  members
+  members,
+  ...restProps
 }) {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("section", {
     className: "mx-auto max-w-screen-xl"
@@ -231,39 +319,68 @@ function TeamMembersCards({
     className: "mb-6 grid gap-8 md:grid-cols-1 lg:grid-cols-2 lg:mb-16"
   }, members.map((member, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Member, {
     key: `member-${i}`,
-    member: member
+    member: member,
+    index: i,
+    ...restProps
   })))));
 }
 function Member({
-  member
+  member,
+  index,
+  RichText,
+  updateMember
 }) {
   const {
     name,
-    position,
+    social,
     role,
-    bio
+    bio,
+    image
   } = member;
+  const {
+    teamState,
+    setTeamState
+  } = (0,_TeamProvider__WEBPACK_IMPORTED_MODULE_1__.useTeamState)();
+  const {
+    currentIndex
+  } = teamState;
+  // console.log(teamState);
+
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "items-center bg-gray-50 rounded-lg shadow sm:flex "
+    className: `items-center bg-gray-50 rounded-lg shadow sm:flex ${currentIndex === index ? "border border-gray-700" : ""}`,
+    onClick: () => setTeamState(prevState => ({
+      ...prevState,
+      currentIndex: index
+    }))
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#",
-    className: "min-w-48 h-full"
+    className: "min-w-48 md:max-w-48 h-full"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     className: "w-full rounded-lg sm:rounded-none sm:rounded-l-lg md:!h-full object-cover",
-    src: "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png",
-    alt: "Bonnie Avatar"
+    src: image.url,
+    alt: image.alt
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "p-5"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
     className: "text-xl font-bold tracking-tight text-gray-900 \r "
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText, {
+    tagName: "a",
+    value: name,
     className: "!no-underline",
-    href: "#"
-  }, name)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
-    className: ""
-  }, role), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
-    className: "mt-3 mb-4 font-light "
-  }, bio), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_2__["default"], null))));
+    href: "#",
+    onChange: name => updateMember("name", name)
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText, {
+    tagName: "span",
+    value: role,
+    onChange: value => updateMember("role", value)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText, {
+    tagName: "p",
+    className: "mt-3 mb-4 font-light ",
+    value: bio,
+    onChange: value => updateMember("bio", value)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Icons_SocialMedia__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    social: social
+  }))));
 }
 
 /***/ }),

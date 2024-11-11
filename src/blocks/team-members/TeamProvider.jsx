@@ -6,7 +6,6 @@ const ThemeContext = createContext();
 // Create a provider component
 export default function TeamProvider({ children }) {
   const [teamState, setTeamState] = useState({
-    theme: "light",
     currentIndex: 0,
   });
 

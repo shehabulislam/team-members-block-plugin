@@ -24,3 +24,22 @@
     width: auto
   }
 }
+
+.components-popover__content {
+  .tmbp-toolbar-uploader {
+    padding: 5px 10px;
+    .components-placeholder__label {
+      display: none;
+    }
+    .components-placeholder__fieldset {
+      width: 330px;
+    display: flex;
+    flex-direction: row;
+      > * {
+        width: auto;
+      }
+    }
+  }
+
+}
+
